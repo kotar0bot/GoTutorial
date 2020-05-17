@@ -9,12 +9,12 @@
               <option value="終了">終了</option>
           </select>
       </p>
-      <p><input type="submit" value="Send"></p>
+      <p><input type="submit" value="送信"></p>
   </form>
   
   <ul>
       {{ range .todos }}
-          <li>内容：{{ .Text }}、状態：{{ .Status }}
+          <li>内容：{{ .Text }} 状態：{{ .Status }} 登録日時: {{ .FormattedCreatedAt }}
               <label><a href="/detail/{{.ID}}">編集</a></label>
               <label><a href="/delete_check/{{.ID}}">削除</a></label>
           </li>

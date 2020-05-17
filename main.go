@@ -17,8 +17,12 @@ func main() {
 	//Index
 	router.GET("/", func(ctx *gin.Context) {
 		todos := dbGetAll()
+		displayTodos := []DisplayTodo{}
+		for _, v := range todos {
+			displayTodos = append(displayTodos, DisplayTodo{v, v.CreatedAt.Format("2006/1/2 15:04:05")})
+		}
 		ctx.HTML(200, "index.html", gin.H{
-			"todos": todos,
+			"todos": displayTodos,
 		})
 	})
 
@@ -62,7 +66,8 @@ func main() {
 			panic("ERROR")
 		}
 		todo := dbGetOne(id)
-		ctx.HTML(200, "delete.html", gin.H{"todo": todo})
+		displayTodo := DisplayTodo{todo, todo.CreatedAt.Format("2006/1/2 15:04:05")}
+		ctx.HTML(200, "delete.html", gin.H{"todo": displayTodo})
 	})
 
 	//Delete
@@ -84,6 +89,11 @@ type Todo struct {
 	gorm.Model
 	Text   string
 	Status string
+}
+
+type DisplayTodo struct {
+	Todo
+	FormattedCreatedAt string
 }
 
 //DB初期化
